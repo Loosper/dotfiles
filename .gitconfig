@@ -1,0 +1,8 @@
+[user]
+	name = Loosper
+[push]
+	default = simple
+[format]
+	pretty = format:%C(auto,yellow)%h%C(auto,magenta)% G? %C(auto,blue)%>(20,trunc)%ad %C(auto,green)%<(10  ,trunc)%aN %C(auto,reset)%s%C(auto,red)% gD% D
+[log]
+	date = format:%Y-%m-%d %H:%M:%S
