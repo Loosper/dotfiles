@@ -1,112 +1,56 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/loosper/.oh-my-zsh
+export ZSH=/home/loosper/.oh-my-zsh
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME='robbyrussell'
 ZSH_THEME="junkfood"
-
 HIST_IGNORE_DUPS="true"
-
-# Set list of themes to load
-# Setting this variable when ZSH_THEME=random
-# cause zsh load theme from this variable instead of
-# looking in ~/.oh-my-zsh/themes/
-# An empty array have no effect
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
+CASE_SENSITIVE="false"
 HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
   python
   command-not-found
   alias-tips
-  z
 )
 
 source $ZSH/oh-my-zsh.sh
+# fish like syntax highlighs
+# needs package zsh-syntax-highlighting
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# User configuration
+# tmux dynamic title
+autoload -Uz add-zsh-hook
 
-# export MANPATH="/usr/local/man:$MANPATH"
+function xterm_title_precmd () {
+	print -Pn '\e]2;%n@%m %~\a'
+	[[ "$TERM" == 'screen'* ]] && print -Pn '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
+}
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+function xterm_title_preexec () {
+	print -Pn '\e]2;%n@%m %~ %# ' && print -n "${(q)1}\a"
+	[[ "$TERM" == 'screen'* ]] && { print -Pn '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n "${(q)1}\e\\"; }
+}
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='mvim'
+if [[ "$TERM" == (screen*|xterm*|rxvt*) ]]; then
+	add-zsh-hook -Uz precmd xterm_title_precmd
+	add-zsh-hook -Uz preexec xterm_title_preexec
 fi
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
+export VISUAL=vim
+export EDITOR="$VISUAL"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-#
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 # export PATH="$PATH:$HOME/.rvm/bin"
 # export HISTCONTROL=ignoreboth:erasedups
 
 alias gdb='gdb -q -ex="set disassemble-next-line on"'
-export VISUAL=vim
-export EDITOR="$VISUAL"
 alias copy="xclip -selection clipboard -i"
 alias paste="xclip -selection clipboard -o"
 alias prettyjson="python -mjson.tool"
@@ -150,3 +94,9 @@ export LD_LIBRARY_PATH=/usr/local/lib
 export PATH=$PATH:/usr/local/cross-compiler/bin/
 export PATH=$PATH:~/.local/bin
 export PYTHONSTARTUP=~/.pythonrc
+
+# ^C+a will expand an alias
+# man zshall - all builtins for zsh
+# dirs shows last visited directories
+# cd <number> goes to that diorectory
+# https://mayccoll.github.io/Gogh/#0 - cool colours for terminal emulators
