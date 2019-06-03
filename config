@@ -1,0 +1,26 @@
+Host office
+    HostName office.toyaga.eu
+    Port 22150
+    User pi
+
+Host koomar
+    HostName koomar.local
+    User pi
+
+Host dolab
+    HostName dolab.local
+    User pi
+
+Host mokosh
+    HostName mokosh.local
+    User root
+
+Host portier
+    Hostname portier
+    User root
+
+# Host github
+# HostName github.com
+# IdentityFile ~/.ssh/key.pub
+# User git
+
