@@ -17,12 +17,27 @@ plugins=(
   python
   command-not-found
   alias-tips
+  zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
 # fish like syntax highlighs
 # needs package zsh-syntax-highlighting
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets cursor line pattern)
+ZSH_HIGHLIGHT_STYLES[line]='bold'
+ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=blue')
+ZSH_HIGHLIGHT_STYLES[default]='fg=cyan,bold' #base1
+ZSH_HIGHLIGHT_STYLES[alias]='fg=white'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[function]='fg=white'
+ZSH_HIGHLIGHT_STYLES[command]='fg=white'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=white'
+ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=green,bold' #base01
+ZSH_HIGHLIGHT_STYLES[path]='fg=cyan'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=blue,bold' #base0
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=blue,bold' #base0
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=red,bold' #orange
 
 # tmux dynamic title
 autoload -Uz add-zsh-hook
@@ -45,6 +60,7 @@ fi
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
+export PAGER=less
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 # export PATH="$PATH:$HOME/.rvm/bin"
