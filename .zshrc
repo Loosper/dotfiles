@@ -19,12 +19,15 @@ plugins=(
   command-not-found
   alias-tips
   zsh-autosuggestions
+  zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
 # fish like syntax highlighs
 # needs package zsh-syntax-highlighting
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# TODO: check if this exists
+# source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets line pattern)
 ZSH_HIGHLIGHT_STYLES[line]='bold'
 ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=blue')
@@ -72,7 +75,8 @@ alias copy="xclip -selection clipboard -i"
 alias paste="xclip -selection clipboard -o"
 alias prettyjson="python -mjson.tool"
 alias packettracer="/opt/pt/bin/PacketTracer7"
-alias vim=vim.gtk3
+#alias vim=vim.gtk3
+alias vimzshrc="vim ~/.zshrc"
 
 alias diff='diff --color=auto'
 alias grep="grep --color=auto --exclude-dir={node_modules,.env,.git,__pycache__}"
