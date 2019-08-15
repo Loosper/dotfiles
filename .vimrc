@@ -3,11 +3,20 @@ set softtabstop=4
 set autoindent
 set expandtab
 set wildmenu
-syntax on 
+syntax on
 set number
 " dont expnadtab in makefiles
 autocmd FileType make setlocal noexpandtab
 colorscheme badwolf
+noswapfile
+
+" remove trailing whitespace
+let blacklist = ['markdown']
+autocmd BufWritePre * if index(blacklist, &ft) < 0 | :%s/\s\+$//e
+
+" highlight trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+\%#\@<!$/
 
 " inoremap " ""<left>
 " inoremap ' ''<left>
