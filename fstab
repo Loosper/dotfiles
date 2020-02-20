@@ -1,0 +1,19 @@
+# Static information about the filesystems.
+# See fstab(5) for details.
+
+# <file system> <dir> <type> <options> <dump> <pass>
+# /dev/sdb2
+UUID=e5c962db-8158-4405-89e4-c6fb7b1eb308	/         	ext4      	rw,relatime	0 1
+
+# /dev/sdb3
+UUID=293805c6-c223-4e9d-b3b9-9530837b920f	/home     	ext4      	rw,relatime	0 2
+
+# /dev/sdb1
+UUID=42DF-154E      	/efi      	vfat      	rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,utf8,errors=remount-ro	0 2
+
+# /dev/sda4
+UUID=2C27C4061916E22E                       /mnt/shared ntfs-3g     defaults    0 0
+
+//mokosh.local/buhal    /mnt/buhal   cifs forcegid,uid=loosper,gid=resident,credentials=/home/loosper/.smbcredentials,cache=none 0 0
+
+

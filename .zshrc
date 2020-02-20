@@ -19,6 +19,9 @@ plugins=(
   zsh-syntax-highlighting
 )
 
+# set up ssh-agent
+# eval $(keychain -Q --agents ssh --noask --eval --quiet `find ~/.ssh/keys | grep "\.key$" --color=never`)
+
 source $ZSH/oh-my-zsh.sh
 # fish like syntax highlighs for zsh-syntax-highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets line pattern)
@@ -70,6 +73,7 @@ alias dmesg="dmesg --color=always"
 alias ls='ls --color=auto'
 alias sudo='sudo -E'
 alias digs='dig +short'
+alias open='xdg-open'
 
 # settings
 export VISUAL=vim
@@ -93,6 +97,7 @@ export LESS="--RAW-CONTROL-CHARS"
 export LD_LIBRARY_PATH=/usr/local/lib
 export PATH=$PATH:/usr/local/cross-compiler/bin/
 export PATH=$PATH:~/.local/bin
+export PATH=$PATH:~/system/cross/bin
 export PYTHONSTARTUP=~/.pythonrc
 # export PATH="$PATH:$HOME/.rvm/bin"
 # export HISTCONTROL=ignoreboth:erasedups
@@ -106,4 +111,8 @@ export PYTHONSTARTUP=~/.pythonrc
 # cute prompt https://github.com/denysdovhan/spaceship-prompt/
 
 # cute commands: sl, gti
+
+if [ -z $TMUX ]; then
+    tmux attach
+fi
 

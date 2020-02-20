@@ -8,7 +8,7 @@ set number
 " dont expnadtab in makefiles
 autocmd FileType make setlocal noexpandtab
 colorscheme badwolf
-noswapfile
+set noswapfile
 
 " remove trailing whitespace
 let blacklist = ['markdown']

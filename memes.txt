@@ -1,0 +1,7 @@
+sl
+gti
+cowsay
+lolcat
+thefuck
+asciiquarium
+

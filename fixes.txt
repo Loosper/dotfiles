@@ -1,0 +1,2 @@
+https://bbs.archlinux.org/viewtopic.php?pid=1584417#p1584417 - fix for harddrive not obeying -S option
+https://wiki.archlinux.org/index.php/hdparm#Persistent_configuration_using_udev_rule - to make above permanent
