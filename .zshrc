@@ -112,6 +112,10 @@ export PYTHONSTARTUP=~/.pythonrc
 
 # cute commands: sl, gti
 
+function unmv {
+    mv $2 $1
+}
+
 if [ -z $TMUX ]; then
     tmux attach
 fi
