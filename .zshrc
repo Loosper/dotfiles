@@ -8,6 +8,7 @@ HYPHEN_INSENSITIVE="true"
 HIST_STAMPS="%d/%m/%y"
 DISABLE_AUTO_UPDATE="true"
 
+# look at themes.md for info on how to get missing ones
 plugins=(
   git
   python
@@ -68,7 +69,7 @@ alias packettracer="/opt/pt/bin/PacketTracer7"
 #alias vim=vim.gtk3
 alias vimzshrc="vim ~/.zshrc"
 alias diff='diff --color=auto'
-alias grep="grep --color=auto --exclude-dir={node_modules,.env,.git,__pycache__}"
+alias grep="grep --color=auto --exclude-dir={node_modules,.env,.git,__pycache__} --exclude tags"
 alias dmesg="dmesg --color=always"
 alias ls='ls --color=auto'
 alias sudo='sudo -E'

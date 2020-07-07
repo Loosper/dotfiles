@@ -1,28 +1,68 @@
+" --- menu settings ---
+syntax on
+set wildmenu      " autocomplete in menu
+set noswapfile
+set number        " show line numbers
+set ruler         " show cursor position
+set showcmd       " show size of visual select
+set incsearch     " incremental (live) search
+set hlsearch      " highlight searches
+set ignorecase smartcase    " case insensitive when all lowercase
+set timeoutlen=1000 ttimeoutlen=0     " Remove timeout when hitting escape
+set laststatus=2  " show a status line
+set foldmethod=syntax " enable folding by syntax rules
+" unfold everything on file read
+autocmd BufRead * normal zR
+
+" --- whitespace settings ---
 set tabstop=4
 set softtabstop=4
 set autoindent
 set expandtab
-set wildmenu
-syntax on
-set number
 " dont expnadtab in makefiles
 autocmd FileType make setlocal noexpandtab
-colorscheme badwolf
-set noswapfile
-
 " remove trailing whitespace
 let blacklist = ['markdown']
 autocmd BufWritePre * if index(blacklist, &ft) < 0 | :%s/\s\+$//e
-
 " highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+\%#\@<!$/
 
-" inoremap " ""<left>
-" inoremap ' ''<left>
-" inoremap ( ()<left>
-" inoremap [ []<left>
-" inoremap { {}<left>
-" inoremap {<CR> {<CR>}<ESC>O
-" inoremap {;<CR> {<CR>};<ESC>O
+colorscheme badwolf
 
+" install packages:
+" https://github.com/preservim/nerdtree
+
+" set the <Leader> key
+let mapleader = " "
+
+" make pane switching easier
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" augment o/O so they have an option to not enter edit mode
+nnoremap <Leader>o o<Esc>
+nnoremap <Leader>O O<Esc>
+
+" TODO: comments, autocomplete
+
+
+" https://www.youtube.com/watch?v=0aEv1Nj0IPg&list=PLwJS-G75vM7kFO-yUkyNphxSIdbi_1NKX&index=12&t=0s
+" Cycle through relativenumber + number/ norelativenumber + number.
+function Cycle_numbering() abort
+  if exists('+relativenumber')
+    execute {
+          \ '00': 'set norelativenumber | set number',
+          \ '01': 'set norelativenumber | set number',
+          \ '10': 'set relativenumber   | set number',
+          \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
+  else
+    " No relative numbering, just toggle numbers on and off.
+    set number!<CR>
+  endif
+endfunction
+
+nnoremap <silent> <Leader>r :call Cycle_numbering()<CR>
+" set paste binding
