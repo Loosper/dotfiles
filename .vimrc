@@ -66,3 +66,14 @@ endfunction
 
 nnoremap <silent> <Leader>r :call Cycle_numbering()<CR>
 " set paste binding
+
+
+" move a line up/down
+" NOTE: these are not ^]j (3 cahrs) but rather the single char you get from C-v A-j
+nnoremap j :m .+1<CR>==
+nnoremap k :m .-2<CR>==
+inoremap j <Esc>:m .+1<CR>==gi
+inoremap k <Esc>:m .-2<CR>==gi
+vnoremap j :m '>+1<CR>gv=gv
+vnoremap k :m '<-2<CR>gv=gv
+
