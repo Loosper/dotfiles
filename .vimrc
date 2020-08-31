@@ -1,3 +1,7 @@
+" jump to line with vim launch:
+" vim <file> +<line>
+" gqip to wrap a comment
+
 " --- menu settings ---
 syntax on
 set wildmenu      " autocomplete in menu
@@ -8,21 +12,38 @@ set showcmd       " show size of visual select
 set incsearch     " incremental (live) search
 set hlsearch      " highlight searches
 set ignorecase smartcase    " case insensitive when all lowercase
-set timeoutlen=1000 ttimeoutlen=0     " Remove timeout when hitting escape
 set laststatus=2  " show a status line
 set foldmethod=syntax " enable folding by syntax rules
 " unfold everything on file read
 autocmd BufRead * normal zR
 
 " --- whitespace settings ---
+" keep shiftwidth and tabstop equal. Otherwise >> command may produce unexpected results
+" softtabstop also doesn't make sense to me to be different
+" if you want insert mode, command mode and >> command to behave differently you can mix and match these 3
 set tabstop=4
+set shiftwidth=4
 set softtabstop=4
+
 set autoindent
 set expandtab
+" :retab to change whitespace settings to whatever is currently set
+
+" show invisible characters
+" set list
+
+" TODO: re-wrap comments correctly.
+" TODO: https://stackoverflow.com/questions/33291130/how-can-i-configure-vim-for-2-different-languages
+" keep language specific settings in separate files
 " dont expnadtab in makefiles
-autocmd FileType make setlocal noexpandtab
+autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal noexpandtab
+autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal tabstop=8
+autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal shiftwidth=8
+autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal softtabstop=8
+autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal colorcolumn=80
+autocmd FileType gitsendemail,gitcommit setlocal textwidth=75
 " remove trailing whitespace
-let blacklist = ['markdown']
+let blacklist = ['markdown', 'diff']
 autocmd BufWritePre * if index(blacklist, &ft) < 0 | :%s/\s\+$//e
 " highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -33,14 +54,15 @@ colorscheme badwolf
 " install packages:
 " https://github.com/preservim/nerdtree
 
-" set the <Leader> key
-let mapleader = " "
 
 " make pane switching easier
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" set the <Leader> key
+let mapleader = " "
 
 " augment o/O so they have an option to not enter edit mode
 nnoremap <Leader>o o<Esc>
@@ -54,26 +76,51 @@ nnoremap <Leader>O O<Esc>
 function Cycle_numbering() abort
   if exists('+relativenumber')
     execute {
-          \ '00': 'set norelativenumber | set number',
-          \ '01': 'set norelativenumber | set number',
-          \ '10': 'set relativenumber   | set number',
-          \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
+          \ '00': 'set   number   | set norelativenumber',
+          \ '01': 'set   number   | set   relativenumber',
+          \ '10': 'set   number   | set   relativenumber',
+          \ '11': 'set nonumber   | set norelativenumber' }[&number . &relativenumber]
   else
     " No relative numbering, just toggle numbers on and off.
     set number!<CR>
   endif
 endfunction
-
 nnoremap <silent> <Leader>r :call Cycle_numbering()<CR>
-" set paste binding
+" TODO: have this with <Leader>R
 
+" this is so that the <A-j> keys work in gnome terminal which is not configurable in this regard
+" https://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+" NOTE: increase this if you're not getting the alt keys
+set ttimeout ttimeoutlen=25
+
+" move tabs
+nnoremap <Leader>t :tabmove +1<CR>
+nnoremap <Leader>T :tabmove -1<CR>
+nnoremap <Leader>e :tabe
 
 " move a line up/down
 " NOTE: these are not ^]j (3 cahrs) but rather the single char you get from C-v A-j
-nnoremap j :m .+1<CR>==
-nnoremap k :m .-2<CR>==
-inoremap j <Esc>:m .+1<CR>==gi
-inoremap k <Esc>:m .-2<CR>==gi
-vnoremap j :m '>+1<CR>gv=gv
-vnoremap k :m '<-2<CR>gv=gv
+" they are also broken. Esc + j does the same (unintended)
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+" Done so that escape sequences above aren't triggered with an actual escape key
+
+" map <C-PageUp> :tabnext<CR>
+" map <C-PageDown> gT
+
+" TODO: these are causing enter to swtich tabs?????????????
+" make switching tabs faster
+" C-PageUp doesn't quite work (might be an <A-j> type of situation)
+nnoremap <C-m> gt
+nnoremap <C-n> gT
 
