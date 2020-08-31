@@ -24,6 +24,12 @@ plugins=(
 # eval $(keychain -Q --agents ssh --noask --eval --quiet `find ~/.ssh/keys | grep "\.key$" --color=never`)
 
 source $ZSH/oh-my-zsh.sh
+
+# TODO: this behaves strange. The shell needs to exit to save its history.
+INC_APPEND_HISTORY="true"
+setopt no_share_history
+unsetopt share_history
+
 # fish like syntax highlighs for zsh-syntax-highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets line pattern)
 ZSH_HIGHLIGHT_STYLES[line]='bold'
@@ -68,13 +74,16 @@ alias prettyjson="python -mjson.tool"
 alias packettracer="/opt/pt/bin/PacketTracer7"
 #alias vim=vim.gtk3
 alias vimzshrc="vim ~/.zshrc"
+alias vimvimrc="vim ~/.vimrc"
 alias diff='diff --color=auto'
-alias grep="grep --color=auto --exclude-dir={node_modules,.env,.git,__pycache__} --exclude tags"
+alias grep="grep --color=auto --exclude-dir={node_modules,.env,.git,__pycache__} --exclude tags -I"
 alias dmesg="dmesg --color=always"
 alias ls='ls --color=auto'
 alias sudo='sudo -E'
 alias digs='dig +short'
 alias open='xdg-open'
+alias cpr='cp -r'
+alias qemu-system-aarch64='~/system/qemu/build/aarch64-softmmu/qemu-system-aarch64'
 
 # settings
 export VISUAL=vim
@@ -96,9 +105,12 @@ export LESS="--RAW-CONTROL-CHARS"
 
 # variable exports
 export LD_LIBRARY_PATH=/usr/local/lib
+# TODO: make a /bin folder inside system and symlink everything there (or move ~/system to an actual system dir)
+# either /opt or /usr/bin or /usr/local/bin should be the one you need
 export PATH=$PATH:/usr/local/cross-compiler/bin/
 export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/system/cross/bin
+export PATH=$PATH:~/system/cross/aarch64-none-linux-gnu/bin
 export PYTHONSTARTUP=~/.pythonrc
 # export PATH="$PATH:$HOME/.rvm/bin"
 # export HISTCONTROL=ignoreboth:erasedups
@@ -121,3 +133,5 @@ if [ -z $TMUX ]; then
     tmux attach
 fi
 
+# git log --pretty=ful
+# git log --no-merges

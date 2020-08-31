@@ -1,2 +1,10 @@
 real-time sync with deployed files (symlinks, chezmoi or https://github.com/jbernard/dotfiles)
 cheat sheets (with stuff i put in)
+
+gsettings set org.gnome.shell.app-switcher current-workspace-only true
+^ to not alt tab between all workspaces
+
+TODO: gnome extensions
+copy the junkfood theme, also install ohmyzsh with the script?
+make themes file into a script
+free memory and CPU usage for tmux

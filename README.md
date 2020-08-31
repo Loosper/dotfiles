@@ -10,4 +10,4 @@ After setting up dotfiles:
 1. Install badwolf vim colour scheme
 1. Install gti and sl
 1. Add `Defaults insults` with visudo
-
+1. Install gef to get the actual .gdbinit
