@@ -1,0 +1,4 @@
+source ~/system/gef/gef.py
+#set auto-load safe-path /home
+#set arch aarch64
+#set debug aarch64
