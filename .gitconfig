@@ -1,6 +1,19 @@
 [user]
 	name = Loosper
     email = boian4o1@gmail.com
+[sendemail]
+	#from = Boyan Karatotev <boian4o1@gmail.com>
+	smtpserver =
+	smtpuser =
+    smtpserverport = 587
+	smtpencryption = tls
+	confirm = always
+    multiedit = false
+	#suppresscc = self
+[color]
+	diff = auto
+	status = auto
+    branch = auto
 [push]
 	default = simple
 [format]
@@ -11,19 +24,19 @@
 [core]
 	excludesfile = ~/.gitignore
     # not 100% sold but seems nice
-    pager = diff-so-fancy | less --tabs=4 -RXS
+    # pager = diff-so-fancy | less --tabs=4 -RXS --pattern '^(Date|added|deleted|modified): '
 [color]
 	ui = auto
 
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
-[color "diff"]
-	meta = 11
-	frag = magenta bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
+# [color "diff-highlight"]
+# 	oldNormal = red bold
+# 	oldHighlight = red bold 52
+# 	newNormal = green bold
+# 	newHighlight = green bold 22
+# [color "diff"]
+# 	meta = 11
+# 	frag = magenta bold
+# 	commit = yellow bold
+# 	old = red bold
+# 	new = green bold
+# 	whitespace = red reverse
