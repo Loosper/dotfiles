@@ -1,3 +1,11 @@
+AddKeysToAgent yes
+
+IdentityFile ~/.ssh/keys/rpi.key
+IdentityFile ~/.ssh/keys/public.key
+IdentityFile ~/.ssh/keys/windows
+IdentityFile ~/.ssh/keys/old/rpi
+IdentityFile ~/.ssh/keys/old/key
+
 Host office
     HostName office.toyaga.eu
     Port 22150

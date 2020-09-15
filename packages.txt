@@ -43,6 +43,9 @@ audacity
 cups
 system-config-printer
 screen
+valgrind
+npm
+nodejs
 ________
 
 elinks
@@ -61,4 +64,9 @@ mformat
 virtualbox
 java
 kdevelop
+qrencode
+gitg
+thunderbird
 
+obs-gnome-screencast
+evtest
