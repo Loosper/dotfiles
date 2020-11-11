@@ -1,12 +1,14 @@
-base_devel
+base-devel
 zsh
 git
 vim
 grub
+efibootmgr
 tmux
 networkmanager
 gnome
 firefox
+sudo
 xclip
 vlc
 sl
@@ -46,6 +48,7 @@ screen
 valgrind
 npm
 nodejs
+ctags
 ________
 
 elinks
@@ -68,5 +71,13 @@ qrencode
 gitg
 thunderbird
 
+---
+git send mail
+perl-authen-sasl
+perl-mime-tools
+perl-io-socket-ssl
+
 obs-gnome-screencast
 evtest
+# power management
+https://wiki.archlinux.org/index.php/TLP
