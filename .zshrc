@@ -79,6 +79,8 @@ alias diff='diff --color=auto'
 alias grep="grep --color=auto --exclude-dir={node_modules,.env,.git,__pycache__} --exclude tags -I"
 alias dmesg="dmesg --color=always"
 alias ls='ls --color=auto'
+alias ip='ip --color=auto'
+# pacman has a colour option in /etc/pacman.conf
 alias sudo='sudo -E'
 alias digs='dig +short'
 alias open='xdg-open'
@@ -130,7 +132,8 @@ function unmv {
 }
 
 if [ -z $TMUX ]; then
-    tmux attach
+    # the systemd part is an attempt to not have tmux killed on logoff (TODO: check if this is working)
+    systemd-run --scope --user tmux attach
 fi
 
 # git log --pretty=ful
