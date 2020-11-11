@@ -17,6 +17,10 @@ set foldmethod=syntax " enable folding by syntax rules
 " unfold everything on file read
 autocmd BufRead * normal zR
 
+set showmatch     " show matching brackets
+set iskeyword+=_,$,@,%,#,;	" none of these are word dividers so make them be
+set whichwrap=b,s,h,l,<,>,~,[,]	" make all direction keys wrap between lines
+
 " --- whitespace settings ---
 " keep shiftwidth and tabstop equal. Otherwise >> command may produce unexpected results
 " softtabstop also doesn't make sense to me to be different
@@ -25,7 +29,8 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
-set autoindent
+" set autoindent
+set smartindent
 set expandtab
 " :retab to change whitespace settings to whatever is currently set
 
@@ -34,14 +39,16 @@ set expandtab
 
 " TODO: re-wrap comments correctly.
 " TODO: https://stackoverflow.com/questions/33291130/how-can-i-configure-vim-for-2-different-languages
+" TODO: maybe this as well https://vim.fandom.com/wiki/Filetype.vim
 " keep language specific settings in separate files
 " dont expnadtab in makefiles
-autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal noexpandtab
-autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal tabstop=8
-autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal shiftwidth=8
-autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal softtabstop=8
-autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal colorcolumn=80
-autocmd FileType gitsendemail,gitcommit setlocal textwidth=75
+" ok this needs doing properly. I.E. do only for linux
+" autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal noexpandtab
+" autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal tabstop=8
+" autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal shiftwidth=8
+" autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal softtabstop=8
+" autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal colorcolumn=80
+" autocmd FileType gitsendemail,gitcommit setlocal textwidth=75
 " remove trailing whitespace
 let blacklist = ['markdown', 'diff']
 autocmd BufWritePre * if index(blacklist, &ft) < 0 | :%s/\s\+$//e
@@ -124,3 +131,25 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 nnoremap <C-m> gt
 nnoremap <C-n> gT
 
+set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%l,%v]
+"              | | | | |  |   |      |  |     |  |
+"              | | | | |  |   |      |  |     |  + current column
+"              | | | | |  |   |      |  |     +-- current line
+"              | | | | |  |   |      |  +-- current % into file
+"              | | | | |  |   |      +-- current syntax in square brackets
+"              | | | | |  |   +-- current fileformat
+"              | | | | |  +-- number of lines
+"              | | | | +-- preview flag in square brackets
+"              | | | +-- help flag in square brackets
+"              | | +-- readonly flag in square brackets
+"              | +-- modified flag in square brackets
+"              +-- full path to file in the buffer
+
+" if exists("&undodir")
+" 	set undodir=~/.vim/undo
+" endif
+
+" :set spell spelllang=en_us
+
+" if NERDtree is open, mirror it in every new tab
+autocmd BufWinEnter * NERDTreeMirror
