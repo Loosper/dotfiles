@@ -2,5 +2,5 @@
 a.out
 .vscode/
 .env/
-__pycahce__/
+__pycache__/
 
