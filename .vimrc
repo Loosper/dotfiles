@@ -1,3 +1,20 @@
+" install Vundle
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+set nocompatible
+filetype off
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+    Plugin 'preservim/nerdtree'
+    Plugin 'ycm-core/YouCompleteMe'
+call vundle#end()
+
+filetype plugin indent on
+
+" cos I use zsh and it likes to break stuff
+set shell=/bin/bash
+
 " jump to line with vim launch:
 " vim <file> +<line>
 " gqip to wrap a comment
@@ -57,9 +74,6 @@ highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+\%#\@<!$/
 
 colorscheme badwolf
-
-" install packages:
-" https://github.com/preservim/nerdtree
 
 
 " make pane switching easier
@@ -153,3 +167,8 @@ set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%l,%v]
 
 " if NERDtree is open, mirror it in every new tab
 autocmd BufWinEnter * NERDTreeMirror
+
+" youCompleteMeSettings
+let g:ycm_show_diagnostics_ui = 0
+"consider if you encounter lots of DOS files (\r\n fileendings)
+" set ff=dos
