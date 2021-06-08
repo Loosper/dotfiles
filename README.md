@@ -10,4 +10,19 @@ After setting up dotfiles:
 1. Install badwolf vim colour scheme
 1. Install gti and sl
 1. Add `Defaults insults` with visudo
+Defaults timestamp_timeout=30
 1. Install gef to get the actual .gdbinit
+
+disable xdg dirs
+
+* to make Nautilus show with lists by defualt
+gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
+* to make Nautilus always show full path (ctrl+l also works)
+gsettings set org.gnome.nautilus.preferences always-use-location-entry true
+
+
+* VLC vlsub unable to save subtitles:
+mkdrir ~/.cache/vlc
+
+
+READ the TODO file

@@ -8,3 +8,41 @@ TODO: gnome extensions
 copy the junkfood theme, also install ohmyzsh with the script?
 make themes file into a script
 free memory and CPU usage for tmux
+
+
+GOGH terminal theme #106
+uncomment "Color" line in /etc/pacman.conf
+
+Firefox:
+in `about:config`
+change full-scren-api.warning.delay to 0
+and full-scren-api.warning.timeout to 0
+
+Extensions:
+Decentraleyes
+HTTPS everywhere
+duplicate tabs closer
+ClearURLs
+GNOME shell integration
+UBlock origin
+youtube search plugin
+
+Startup: restore previous session
+reload button on right, then extensions, no blacnk space
+
+no suspend when plugged in
+gnome tweaks -> keyboard -> additional layout options -> key to choose 3rd level -> uncheck right alt; select 'right alt never chooses 3rd level'
+
+
+
+If gdm hangs:
+systemct enable accounts-daemon.service
+for some reason it's not enabled by default and crashes it until you log in
+
+
+early kms for amdgpu seems to fix screen freezing on suspend
+https://wiki.archlinux.org/index.php/Kernel_mode_setting#Early_KMS_start
+
+
+give wireshark access to shit:
+gpasswd -a loosper wireshark
