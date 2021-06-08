@@ -5,9 +5,12 @@ filetype off
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 
+" install them with :PluginInstall or +PluginInstall +qall on the cmd line
 call vundle#begin()
     Plugin 'preservim/nerdtree'
     Plugin 'ycm-core/YouCompleteMe'
+    Plugin 'airblade/vim-gitgutter'
+    Plugin 'tpope/vim-commentary'
 call vundle#end()
 
 filetype plugin indent on
@@ -28,7 +31,9 @@ set ruler         " show cursor position
 set showcmd       " show size of visual select
 set incsearch     " incremental (live) search
 set hlsearch      " highlight searches
+set shortmess-=S  " this shows search match counter
 set ignorecase smartcase    " case insensitive when all lowercase
+set wildignorecase          " case insensitive file completion
 set laststatus=2  " show a status line
 set foldmethod=syntax " enable folding by syntax rules
 " unfold everything on file read
@@ -172,3 +177,18 @@ autocmd BufWinEnter * NERDTreeMirror
 let g:ycm_show_diagnostics_ui = 0
 "consider if you encounter lots of DOS files (\r\n fileendings)
 " set ff=dos
+
+
+" vim-commentary has a
+" setlocal commentstring=//\ %s
+" in .vim/bundle/Vundle.vim/ftplugin/c.vim
+" to change comments to single line by default.
+" TODO: fix this ^
+
+" gitgutter settings
+set updatetime=100
+highlight! link SignColumn LineNr
+
+highlight GitGutterAdd    guifg=#009900 ctermfg=2
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1
