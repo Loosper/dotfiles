@@ -86,6 +86,7 @@ alias digs='dig +short'
 alias open='xdg-open'
 alias cpr='cp -r'
 alias qemu-system-aarch64='~/system/qemu/build/aarch64-softmmu/qemu-system-aarch64'
+alias less='less -i'
 
 # settings
 export VISUAL=vim
@@ -129,6 +130,13 @@ export PYTHONSTARTUP=~/.pythonrc
 
 function unmv {
     mv $2 $1
+}
+
+function swap() {
+    local TMPFILE=tmp.$$
+    mv "$1" $TMPFILE
+    mv "$2" "$1"
+    mv $TMPFILE "$2"
 }
 
 if [ -z $TMUX ]; then
