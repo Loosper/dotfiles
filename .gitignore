@@ -3,4 +3,6 @@ a.out
 .vscode/
 .env/
 __pycache__/
+*.class
+node_modules/
 
