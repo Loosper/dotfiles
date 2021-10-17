@@ -8,7 +8,7 @@ delay = 300
 * Caffeine
 * Sound input & output device chooser
 unset "extend volume menu to fit device names"
-
+* pixel saver
 
 ## Settings
 * enable Night Light

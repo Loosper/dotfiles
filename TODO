@@ -10,13 +10,13 @@ make themes file into a script
 free memory and CPU usage for tmux
 
 
-GOGH terminal theme #106
+GOGH terminal theme: Monokai-soda
 uncomment "Color" line in /etc/pacman.conf
 
 Firefox:
 in `about:config`
-change full-scren-api.warning.delay to 0
-and full-scren-api.warning.timeout to 0
+change full-screen-api.warning.delay to 0
+and full-screen-api.warning.timeout to 0
 
 Extensions:
 Decentraleyes
@@ -49,3 +49,12 @@ https://wiki.archlinux.org/index.php/Kernel_mode_setting#Early_KMS_start
 
 give wireshark access to shit:
 gpasswd -a loosper wireshark
+
+to change font-size (without changing terminal settings):
+gnome-tweaks -> fonts
+
+firefox touchscreen scrolling:
+set `dom.w3c_touch_events.enabled=1` in about:config
+add `MOZ_USE_XINPUT2 DEFAULT=1` to etc/security/pam_env.conf
+
+set MANPATH (in /etc/man_db.conf) to get syscalls first. Idk what n or l mean
