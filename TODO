@@ -33,6 +33,9 @@ reload button on right, then extensions, no blacnk space
 no suspend when plugged in
 gnome tweaks -> keyboard -> additional layout options -> key to choose 3rd level -> uncheck right alt; select 'right alt never chooses 3rd level'
 
+make volume more granular:
+https://www.reddit.com/r/gnome/comments/f4owxw/gnome_volume_step_adjustment/
+gsettings set org.gnome.settings-daemon.plugins.media-keys volume-step 2
 
 
 If gdm hangs:
