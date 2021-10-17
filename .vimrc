@@ -8,6 +8,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 " install them with :PluginInstall or +PluginInstall +qall on the cmd line
 call vundle#begin()
     Plugin 'preservim/nerdtree'
+    " this needs a manual installation:
+    " cd ~/.vim/bundle/YouCompleteMe
+    " python3 install.py --all
     Plugin 'ycm-core/YouCompleteMe'
     Plugin 'airblade/vim-gitgutter'
     Plugin 'tpope/vim-commentary'
@@ -58,6 +61,8 @@ set expandtab
 
 " show invisible characters
 " set list
+" highlight typos
+" set spell
 
 " TODO: re-wrap comments correctly.
 " TODO: https://stackoverflow.com/questions/33291130/how-can-i-configure-vim-for-2-different-languages
@@ -71,8 +76,9 @@ set expandtab
 " autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal softtabstop=8
 " autocmd FileType c,asm,gitsendemail,make,gitcommit setlocal colorcolumn=80
 " autocmd FileType gitsendemail,gitcommit setlocal textwidth=75
+autocmd FileType gitsendemail,gitcommit setlocal textwidth=75
 " remove trailing whitespace
-let blacklist = ['markdown', 'diff']
+let blacklist = ['markdown', 'diff', 'gitcommit']
 autocmd BufWritePre * if index(blacklist, &ft) < 0 | :%s/\s\+$//e
 " highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -150,14 +156,15 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 nnoremap <C-m> gt
 nnoremap <C-n> gT
 
-set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%l,%v]
-"              | | | | |  |   |      |  |     |  |
-"              | | | | |  |   |      |  |     |  + current column
-"              | | | | |  |   |      |  |     +-- current line
-"              | | | | |  |   |      |  +-- current % into file
-"              | | | | |  |   |      +-- current syntax in square brackets
-"              | | | | |  |   +-- current fileformat
-"              | | | | |  +-- number of lines
+set statusline=%F%m%r%h%w[%{&ff}]%y%=%L\ lines\ (%p%%)\ [%l,%v]
+"              | | | | |  |      | | |             |     |  |
+"              | | | | |  |      | | |             |     |  + current column
+"              | | | | |  |      | | |             |     +-- current line
+"              | | | | |  |      | | |             +-- current % into file
+"              | | | | |  |      | | +-- number of lines
+"              | | | | |  |      | +-- justify left
+"              | | | | |  |      +-- current syntax in square brackets
+"              | | | | |  +-- current fileformat
 "              | | | | +-- preview flag in square brackets
 "              | | | +-- help flag in square brackets
 "              | | +-- readonly flag in square brackets
@@ -173,6 +180,8 @@ set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%l,%v]
 " if NERDtree is open, mirror it in every new tab
 autocmd BufWinEnter * NERDTreeMirror
 
+" TODO: semantic code completion for c (it seems to be project specific, check
+" the github readme)
 " youCompleteMeSettings
 let g:ycm_show_diagnostics_ui = 0
 "consider if you encounter lots of DOS files (\r\n fileendings)
@@ -192,3 +201,6 @@ highlight! link SignColumn LineNr
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+
+" search for tags until you hit the directory
+set tags=tags;/home/boykar01
