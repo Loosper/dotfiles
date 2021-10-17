@@ -76,7 +76,11 @@ alias packettracer="/opt/pt/bin/PacketTracer7"
 alias vimzshrc="vim ~/.zshrc"
 alias vimvimrc="vim ~/.vimrc"
 alias diff='diff --color=auto'
-alias grep="grep --color=auto --exclude-dir={node_modules,.env,.git,__pycache__} --exclude tags -I"
+GREP_OPTS="--color=auto --exclude-dir={node_modules,.env,.git,__pycache__} --exclude tags -I -n"
+alias grep="grep $GREP_OPTS"
+alias rgrep="rgrep $GREP_OPTS"
+alias egrep="egrep $GREP_OPTS"
+alias fgrep="fgrep $GREP_OPTS"
 alias dmesg="dmesg --color=always"
 alias ls='ls --color=auto'
 alias ip='ip --color=auto'
@@ -85,7 +89,7 @@ alias sudo='sudo -E'
 alias digs='dig +short'
 alias open='xdg-open'
 alias cpr='cp -r'
-alias qemu-system-aarch64='~/system/qemu/build/aarch64-softmmu/qemu-system-aarch64'
+# alias qemu-system-aarch64='~/system/qemu/build/aarch64-softmmu/qemu-system-aarch64'
 alias less='less -i'
 
 # settings
@@ -146,3 +150,7 @@ fi
 
 # git log --pretty=ful
 # git log --no-merges
+
+# this dir has all system-specific toolchains and such which need to be in $PATH
+# add them to the path in a system specific manner
+source ~/system/.zsh_system_source
