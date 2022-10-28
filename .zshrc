@@ -1,34 +1,35 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/home/loosper/.oh-my-zsh
 
+# TODO: https://mayccoll.github.io/Gogh/#0 - cool colours for terminal emulators
+# TODO: cute prompt https://github.com/denysdovhan/spaceship-prompt/
+# NOTE: I have junkfood editted with:
+# PROMPT="$JUNKFOOD_CURRENT_USER_$JUNKFOOD_LOCA_
 ZSH_THEME="junkfood"
-HIST_IGNORE_DUPS="true"
 CASE_SENSITIVE="false"
 HYPHEN_INSENSITIVE="true"
-HIST_STAMPS="%d/%m/%y"
 DISABLE_AUTO_UPDATE="true"
+HIST_IGNORE_DUPS="true"
+HIST_STAMPS="%d/%m/%y"
+SHARE_HISTORY="true"
 
 # look at themes.md for info on how to get missing ones
 plugins=(
   git
-  python
-  systemd
-  archlinux
-  command-not-found
-  alias-tips
-  zsh-autosuggestions
-  zsh-syntax-highlighting
+    python
+    systemd
+    archlinux
+    command-not-found # need command-not-found system package
+    alias-tips
+    # look at README to install
+    zsh-autosuggestions
+    zsh-syntax-highlighting
 )
 
 # set up ssh-agent
 # eval $(keychain -Q --agents ssh --noask --eval --quiet `find ~/.ssh/keys | grep "\.key$" --color=never`)
 
 source $ZSH/oh-my-zsh.sh
-
-# TODO: this behaves strange. The shell needs to exit to save its history.
-INC_APPEND_HISTORY="true"
-setopt no_share_history
-unsetopt share_history
 
 # fish like syntax highlighs for zsh-syntax-highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets line pattern)
@@ -66,7 +67,12 @@ ZSH_HIGHLIGHT_STYLES[comment]='fg=gray,bold'
 # 	add-zsh-hook -Uz preexec xterm_title_preexec
 # fi
 
-# aliases
+# --- commands ---
+# which <alias> will show what it maps to
+# man zshall - all builtins for zsh
+# dirs shows last visited directories
+#   cd <number> goes to that directory
+# cute commands: sl, gti
 alias gdb='gdb -q -ex="set disassemble-next-line on"'
 alias copy="xclip -selection clipboard -i"
 alias paste="xclip -selection clipboard -o"
@@ -77,8 +83,11 @@ alias vimzshrc="vim ~/.zshrc"
 alias vimvimrc="vim ~/.vimrc"
 alias diff='diff --color=auto'
 GREP_OPTS="--color=auto --exclude-dir={node_modules,.env,.git,__pycache__} --exclude tags -I -n"
+alias cgrep="/bin/grep" # clean grep
 alias grep="grep $GREP_OPTS"
+alias igrep="grep -i $GREP_OPTS"
 alias rgrep="rgrep $GREP_OPTS"
+alias rigrep="rgrep -i $GREP_OPTS"
 alias egrep="egrep $GREP_OPTS"
 alias fgrep="fgrep $GREP_OPTS"
 alias dmesg="dmesg --color=always"
@@ -88,11 +97,22 @@ alias ip='ip --color=auto'
 alias sudo='sudo -E'
 alias digs='dig +short'
 alias open='xdg-open'
-alias cpr='cp -r'
-# alias qemu-system-aarch64='~/system/qemu/build/aarch64-softmmu/qemu-system-aarch64'
 alias less='less -i'
+# force systemd to not kill tmux on logoff
+alias tmux="systemd-run --scope --user tmux attach"
 
-# settings
+function unmv {
+    mv $2 $1
+}
+
+function swap() {
+    local TMPFILE=tmp.$$
+    mv "$1" $TMPFILE
+    mv "$2" "$1"
+    mv $TMPFILE "$2"
+}
+
+# --- settings ---
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export PAGER=less
@@ -112,44 +132,13 @@ export LESS="--RAW-CONTROL-CHARS"
 
 # variable exports
 export LD_LIBRARY_PATH=/usr/local/lib
-# TODO: make a /bin folder inside system and symlink everything there (or move ~/system to an actual system dir)
-# either /opt or /usr/bin or /usr/local/bin should be the one you need
-export PATH=$PATH:/usr/local/cross-compiler/bin/
 export PATH=$PATH:~/.local/bin
-export PATH=$PATH:~/system/cross/bin
-export PATH=$PATH:~/system/cross/aarch64-none-linux-gnu/bin
 export PYTHONSTARTUP=~/.pythonrc
 # export PATH="$PATH:$HOME/.rvm/bin"
-# export HISTCONTROL=ignoreboth:erasedups
-
-# alias shows all aliases
-# ^C+a will expand an alias
-# man zshall - all builtins for zsh
-# dirs shows last visited directories
-# cd <number> goes to that diorectory
-# https://mayccoll.github.io/Gogh/#0 - cool colours for terminal emulators
-# cute prompt https://github.com/denysdovhan/spaceship-prompt/
-
-# cute commands: sl, gti
-
-function unmv {
-    mv $2 $1
-}
-
-function swap() {
-    local TMPFILE=tmp.$$
-    mv "$1" $TMPFILE
-    mv "$2" "$1"
-    mv $TMPFILE "$2"
-}
 
 if [ -z $TMUX ]; then
-    # the systemd part is an attempt to not have tmux killed on logoff (TODO: check if this is working)
-    systemd-run --scope --user tmux attach
+    tmux attach
 fi
-
-# git log --pretty=ful
-# git log --no-merges
 
 # this dir has all system-specific toolchains and such which need to be in $PATH
 # add them to the path in a system specific manner
