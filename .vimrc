@@ -155,6 +155,10 @@ nnoremap <C-H> <C-W><C-H>
 " augment o/O so they have an option to not enter edit mode
 nnoremap <Leader>o o<Esc>
 nnoremap <Leader>O O<Esc>
+" copy to (vim) clipboard. TODO: should go in global clipboard
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
+
 " Cycle through relativenumber + number/ norelativenumber + number.
 function Cycle_numbering(direction) abort
     if !exists('+relativenumber') " just toggle
