@@ -1,9 +1,31 @@
+# this is to ignore all non-extension files (usually binaries or test files)
+*
+!/**/
+!*.*
+!makefile
+!Makefile
+
 *.swp
 a.out
 .vscode/
 .env/
 __pycache__/
+.ipynb_checkpoints/
 *.class
 node_modules/
 tags
 
+# compiler outputs
+*.o
+
+# latex outputs
+*.log
+*.pdf
+*.aux
+*.bbl
+*.blg
+*.toc
+*.lof
+
+# generic data ignore
+*.xml
