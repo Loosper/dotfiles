@@ -13,6 +13,8 @@ wget
 xclip
 vlc
 cmake
+# mesa-vdpau
+libva-mesa-driver
 sl
 curl
 chromium
@@ -27,6 +29,7 @@ openbsd-netcat
 youtube-dl
 htop
 gdb
+strace
 libreoffice-still
 qbittorrent
 ncdu
@@ -70,6 +73,8 @@ dnsutils
 adobe-source-han-sans-otc-fonts
 ttf-indic-otf
 binwalk
+smartmontools
+tk # useful to have, required by git-gui
 ________
 
 code
