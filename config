@@ -1,5 +1,11 @@
 AddKeysToAgent yes
 
+Host qemu
+    HostName localhost
+    Port 2022
+    User loosper
+    UserKnownHostsFile=/dev/null
+    StrictHostKeychecking no
 IdentityFile ~/.ssh/keys/rpi.key
 IdentityFile ~/.ssh/keys/public.key
 IdentityFile ~/.ssh/keys/windows

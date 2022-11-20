@@ -11,11 +11,14 @@ HYPHEN_INSENSITIVE="true"
 DISABLE_AUTO_UPDATE="true"
 HIST_IGNORE_DUPS="true"
 HIST_STAMPS="%d/%m/%y"
-SHARE_HISTORY="true"
+# SHARE_HISTORY reads it as well. Undesirable cos I want separete shells to
+# remain so for their lifetime
+# TODO: I suspect zsh doesn't cache the read copy and it updates anyway. Seems
+# to be why I had this off in the first place
+INC_APPEND_HISTORY="true"
 
 # look at themes.md for info on how to get missing ones
 plugins=(
-  git
     python
     systemd
     archlinux
@@ -99,7 +102,47 @@ alias digs='dig +short'
 alias open='xdg-open'
 alias less='less -i'
 # force systemd to not kill tmux on logoff
-alias tmux="systemd-run --scope --user tmux attach"
+alias tmux="systemd-run --scope --user tmux"
+# this git plugin sucks, so roll my own
+alias g="git"
+alias gb="git branch"
+alias grh="git reset"
+alias grhh="git reset --hard"
+alias gco="git checkout"
+alias gcob="git checkout -b"
+alias gsh="git show --format=medium --abbrev-commit"
+alias gbl="git blame"
+alias gd="git diff"
+alias gds="git diff --staged"
+alias gfa="git fetch --all"
+alias gm="git merge"
+# commit
+alias gst="git status"
+alias ga="git add"
+alias gc="git commit -v"
+alias gcmsg="git commit -v -m"
+alias gcmsgs="git commit -v -m -s" # signed
+alias gc!="git commit -v --amend"
+# push/pull
+alias gl="git pull"
+alias glr="git pull --rebase"
+alias gp="git push"
+# rebase
+alias grb="git rebase"
+alias grbi="git rebase -i"
+alias grbc="git rebase --continue"
+alias grba="git rebase --abort"
+# stash
+alias gsta="git stash save"
+alias gstp="git stash pop"
+alias gsts="git stash show -p"
+alias gstl="git stash list"
+alias gstd="git stash drop"
+# log
+alias glg="git log"
+alias glgs="git log --stat"
+alias glgp="git log --stat --patch"
+alias glgnm="git log --no-merges"
 
 function unmv {
     mv $2 $1
