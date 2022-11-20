@@ -13,11 +13,13 @@ call vundle#begin()
     " python3 install.py --all
     Plugin 'ycm-core/YouCompleteMe'
     Plugin 'airblade/vim-gitgutter'
-    Plugin 'tpope/vim-commentary'       " TODO: vim help 30.6 has some of this?
+    Plugin 'tpope/vim-commentary'       " shortcuts to toggle comments
     Plugin 'airblade/vim-rooter'
     Plugin 'matze/vim-move'             " allows to move horizontally
     Plugin 'azabiong/vim-highlighter'
     Plugin 'Raimondi/delimitMate'       " auto adds/removes closing brackets
+    Plugin 'compnerd/arm64asm-vim'
+    " TODO: make highligh + bracket/quote to surround the highlight by them
 call vundle#end()
 " TODO: https://github.com/vim-airline/vim-airline " a better (?) statusline
 " Plugin 'nathanaelkane/vim-indent-guides' " highlights indentation. I don't
@@ -26,7 +28,8 @@ call vundle#end()
 " Lots of configs stolen from: https://www.youtube.com/watch?v=0aEv1Nj0IPg&list=PLwJS-G75vM7kFO-yUkyNphxSIdbi_1NKX
 " jump to line with vim launch:
 " vim <file> +<line>
-" gqip to wrap a comment
+" gq<motion> - format. gq]/ will do until end of comment (ip - in paragraph)
+" (TODO: doesn't work for bash like comments?)
 " :set var?     queries the variable value
 " show invisible characters
 " set list
@@ -70,21 +73,18 @@ set statusline=%F%m%r%h%w[%{&ff}]%y%=%L\ lines\ (%p%%)\ [%l,%v]
 "              | +-- modified flag in square brackets
 "              +-- full path to file in the buffer
 
-" --- editor ---
+" --- editor settings ---
 set showmatch               " show matching brackets
 set foldmethod=syntax       " enable folding by syntax rules
 set iskeyword+=_            " which characters are considered a word (and won't split it)
 set whichwrap=b,s,h,l,<,>,~,[,]	" make all direction keys wrap between lines
-set colorcolumn=80          " vertical ruler for max line width
+set textwidth=80            " the max width for text (but not code)
+set formatoptions-=t        " don't wrap text (i.e code)
+" sadly will probably not wrap .txt files but ah well
+set colorcolumn=81          " vertical ruler for max line width (the char after line 80)
 set spelllang=en_gb         " dictionary ":set spell" will use
 highlight ColorColumn ctermbg=238 " make it grey
 
-" TODO: help format-comments, fo-table, gq, formatting
-" for textwidth stuff
-" TODO: re-wrap comments correctly.
-" TODO: https://stackoverflow.com/questions/33291130/how-can-i-configure-vim-for-2-different-languages
-" TODO: maybe this as well https://vim.fandom.com/wiki/Filetype.vim
-" TODO: comments, autocomplete
 " NOTE: use ctags-universal --c-kinds=+px (consider lzL too)
 " the normal ctags is crippled for assembly
 " search for tags until you hit the directory
@@ -123,9 +123,12 @@ function Clike_indent()
     setlocal softtabstop=8
 endfunction
 autocmd FileType c,cpp,asm,gitsendemail,make,gitcommit call Clike_indent()
+" these I'm not sure about but seem to use the same
+autocmd FileType sh call Clike_indent()
 
-autocmd FileType gitsendemail,gitcommit setlocal textwidth=75 " TODO: linux
-" prescribes the first line to be no more than 75 chars. How to handle?
+" Linux says 72 to 75, TF-A wants no more than 72.
+autocmd FileType gitsendemail,gitcommit setlocal textwidth=72
+autocmd FileType gitsendemail,gitcommit setlocal spell
 
 " remove trailing whitespace
 let blacklist = ['markdown', 'diff', 'gitcommit']
@@ -138,6 +141,8 @@ colorscheme badwolf
 
 " unfold everything on file read
 autocmd BufRead * normal zR
+" add "NOTE" as a keyword to (most) syntaxes
+autocmd Syntax * syntax keyword Todo NOTE containedin=.*Comment
 
 " --- key bindings ---
 " set the <Leader> key
@@ -224,22 +229,26 @@ nnoremap <Leader>e :tabe
 " if NERDtree is open, mirror it in every new tab
 " autocmd BufWinEnter * NERDTreeMirror
 
-" TODO: semantic code completion for c (it seems to be project specific, check
-" the github readme)
-" youCompleteMeSettings
-let g:ycm_show_diagnostics_ui = 0
-"consider if you encounter lots of DOS files (\r\n fileendings)
-" set ff=dos
+" --- youCompleteMe Settings ---
+" C-y - close autocomplete menu (to insert tab)
+" C- Space - open it
+" TODO: you can try setting up semantic code completion; this *could* replace
+" ctags and could even have cool inline semantic highlighting with type and
+" error checks, docstrings and loads of ide features. Will 100% take an
+" afternoon to setup and sounds very project specific
+let g:ycm_show_diagnostics_ui = 0 " disable the semantic error highlights
+let g:ycm_auto_hover = 1 " disable the detail popup on symbol hover
+let g:ycm_collect_identifiers_from_tags_files = 1 " I use tags so enable
 
 let g:rooter_patterns = ['.git', 'Makefile']
 
-" vim-commentary has a
-" setlocal commentstring=//\ %s
-" in .vim/bundle/Vundle.vim/ftplugin/c.vim
-" to change comments to single line by default.
-" TODO: fix this ^
+" --- vim-commentary settings ---
+"  for comment details: https://vimdoc.sourceforge.net/htmldoc/usr_30.html
+"  the default "/*\ %s\ */" comment doesn't work well while developing
+"  for documentation, I can type it in myself I guess
+autocmd FileType c setlocal commentstring=//\ %s
 
-" gitgutter settings
+" --- gitgutter settings ---
 set updatetime=100
 highlight! link SignColumn LineNr
 
@@ -247,7 +256,7 @@ highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
-" vim-highligher settings
+" --- vim-highligher settings ---
 " TODO: more advances features when I'm used to these
 " basic keys
 let HiSet    = '<Leader>/'     " select for highlight
@@ -259,5 +268,9 @@ nnoremap <Leader>N :Hi<<CR>    "         prev
 nnoremap <Leader>> :Hi}<CR>    " jump to next highlight
 nnoremap <Leader>< :Hi{<CR>    "         prev
 
-" delimitMate settings
+" --- delimitMate settings ---
 " TODO
+
+" --- arm64asm-vim settings ---
+" I use arm. x86 is unlikely but I can still set manually
+autocmd FileType asm setlocal filetype=arm64asm
