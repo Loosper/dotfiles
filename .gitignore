@@ -5,4 +5,5 @@ a.out
 __pycache__/
 *.class
 node_modules/
+tags
 
