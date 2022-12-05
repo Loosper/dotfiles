@@ -8,6 +8,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 " install them with :PluginInstall or +PluginInstall +qall on the cmd line
 call vundle#begin()
     Plugin 'preservim/nerdtree'
+    Plugin 'Xuyuanp/nerdtree-git-plugin'
+    Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+    Plugin 'preservim/tagbar' " shows a side bar with all tags in the file
     " this needs a manual installation:
     " cd ~/.vim/bundle/YouCompleteMe
     " python3 install.py --all
@@ -229,9 +232,35 @@ nnoremap <Leader>e :tabe
 " endif
 
 
-" TODO: errors out
-" if NERDtree is open, mirror it in every new tab
-" autocmd BufWinEnter * NERDTreeMirror
+" --- NERDtree setttings ---
+" Start NERDTree and put the cursor back in the other window.
+autocmd VimEnter * NERDTree | wincmd p
+
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+
+" hide the arrows. Not sure if I like but is certainly concise
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
+
+" git plugin
+let g:NERDTreeGitStatusConcealBrackets = 1
+" let g:NERDTreeLimitedSyntax = 1
+
+" syntax highlight
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+
+" --- Tagbar settings ---
+let g:tagbar_sort = 0
+let g:tagbar_compact = 1
+let g:tagbar_ctags_bin = "ctags-universal"
+" TODO: nnoremap?
+nmap <Leader>tgb :TagbarToggle<CR>
 
 " --- youCompleteMe Settings ---
 " C-y - close autocomplete menu (to insert tab)
