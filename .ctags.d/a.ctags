@@ -1,0 +1,3 @@
+--c-kinds=+pxlzL
+--fields=+Krls
+--regex-asm=/^func ([a-z_0-9]*)$/\1/

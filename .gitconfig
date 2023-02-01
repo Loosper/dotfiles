@@ -9,7 +9,7 @@
 	smtpencryption = tls
 	confirm = always
     multiedit = false
-	#suppresscc = self
+    suppresscc = self
 [color]
 	diff = auto
 	status = auto
@@ -23,7 +23,10 @@
 
 [core]
 	excludesfile = ~/.gitignore
-    # not 100% sold but seems nice
+	# not sure about this
+	symlinks = true
+	# not 100% sold but seems nice
+	pager = less -i
     # pager = diff-so-fancy | less --tabs=4 -RXS --pattern '^(Date|added|deleted|modified): '
 [color]
 	ui = auto

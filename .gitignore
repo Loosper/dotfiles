@@ -14,6 +14,7 @@ __pycache__/
 *.class
 node_modules/
 tags
+cscope.out
 
 # compiler outputs
 *.o

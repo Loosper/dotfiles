@@ -13,3 +13,4 @@ ln -s `pwd`/config ~/.ssh/config
 ln -s `pwd`/.gitignore ~/.gitignore
 ln -s `pwd`/badwolf.vim ~/.vim/colors/badwolf.vim
 ln -s `pwd`/htoprc ~/.config/htop/htoprc
+ln -s `pwd`/.ctags.d ~/.ctags.d
