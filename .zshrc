@@ -11,11 +11,25 @@ HYPHEN_INSENSITIVE="true"
 DISABLE_AUTO_UPDATE="true"
 HIST_IGNORE_DUPS="true"
 HIST_STAMPS="%d/%m/%y"
-# SHARE_HISTORY reads it as well. Undesirable cos I want separete shells to
-# remain so for their lifetime
-# TODO: I suspect zsh doesn't cache the read copy and it updates anyway. Seems
-# to be why I had this off in the first place
-INC_APPEND_HISTORY="true"
+SHARE_HISTORY="true"
+
+# use local (this session only) history for up/down arrow, global for everything
+# else
+bindkey "${key[Up]}" up-line-or-local-history
+bindkey "${key[Down]}" down-line-or-local-history
+
+up-line-or-local-history() {
+    zle set-local-history 1
+    zle up-line-or-history
+    zle set-local-history 0
+}
+zle -N up-line-or-local-history
+down-line-or-local-history() {
+    zle set-local-history 1
+    zle down-line-or-history
+    zle set-local-history 0
+}
+zle -N down-line-or-local-history
 
 # look at themes.md for info on how to get missing ones
 plugins=(
