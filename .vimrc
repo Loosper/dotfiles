@@ -7,17 +7,18 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 " install them with :PluginInstall or +PluginInstall +qall on the cmd line
 call vundle#begin()
-    Plugin 'preservim/nerdtree'
+    Plugin 'preservim/nerdtree'     " TODO: can also have icons
     Plugin 'Xuyuanp/nerdtree-git-plugin'
     Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plugin 'preservim/tagbar' " shows a side bar with all tags in the file
+    Plugin 'ctrlpvim/ctrlp.vim'
     " this needs a manual installation:
     " cd ~/.vim/bundle/YouCompleteMe
     " python3 install.py --all
     Plugin 'ycm-core/YouCompleteMe'
     Plugin 'airblade/vim-gitgutter'
     Plugin 'tpope/vim-commentary'       " shortcuts to toggle comments
-    Plugin 'airblade/vim-rooter'
+    Plugin 'ludovicchabant/vim-gutentags' " keeps ctags up to date (on save)
     Plugin 'matze/vim-move'             " allows to move horizontally
     Plugin 'azabiong/vim-highlighter'
     Plugin 'Raimondi/delimitMate'       " auto adds/removes closing brackets
@@ -45,7 +46,17 @@ call vundle#end()
 " TODO: learn to use marks (can mark and eg. delete up to it)
 " gg=G   reindent the whole file
     " C-D in insert mode deletes one indent level
+"consider if you encounter lots of DOS files (\r\n fileendings)
+" set ff=dos
+" TODO: look at motions
+" -- vim--commentary ---
+"  gc<motion> to comment motion stuff.
+"  if motion=c does current line
 
+" TODO: no clue what's up with this. Shows jibberish icons
+" probably requires a nerd font
+" Plugin 'ryanoasis/vim-devicons'
+" set encoding=UTF-8
 
 " --- menu settings ---
 syntax on
@@ -80,6 +91,7 @@ set statusline=%F%m%r%h%w[%{&ff}]%y%=%L\ lines\ (%p%%)\ [%l,%v]
 set showmatch               " show matching brackets
 set foldmethod=syntax       " enable folding by syntax rules
 set iskeyword+=_            " which characters are considered a word (and won't split it)
+set iskeyword-=#            " # isn't in most cases
 set whichwrap=b,s,h,l,<,>,~,[,]	" make all direction keys wrap between lines
 set textwidth=80            " the max width for text (but not code)
 set formatoptions-=t        " don't wrap text (i.e code)
@@ -89,6 +101,7 @@ set spelllang=en_gb         " dictionary ":set spell" will use
 highlight ColorColumn ctermbg=238 " make it grey
 
 " NOTE: use ctags-universal --c-kinds=+px (consider lzL too)
+" full command for tf-a: ctags-universal --c-kinds=+pxlzL --fields=+Krls --regex-asm="/^func ([a-z_0-9]*)$/\1/" -R .
 " the normal ctags is crippled for assembly
 " search for tags until you hit the directory
 " doesn't work the way you think it does
@@ -233,14 +246,17 @@ nnoremap <Leader>e :tabe
 
 
 " --- NERDtree setttings ---
-" Start NERDTree and put the cursor back in the other window.
-autocmd VimEnter * NERDTree | wincmd p
+" Start NERDTree and put the cursor back in the other window. Then unfold
+" current file
+autocmd VimEnter * NERDTree | wincmd p | NERDTreeFind | wincmd p
 
 " Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | wincmd p | endif
+" TODO:
+" if &ft =~ 'gitrebase'
 
 " hide the arrows. Not sure if I like but is certainly concise
 let g:NERDTreeDirArrowExpandable = ''
@@ -255,12 +271,19 @@ let g:NERDTreeFileExtensionHighlightFullName = 1
 let g:NERDTreeExactMatchHighlightFullName = 1
 let g:NERDTreePatternMatchHighlightFullName = 1
 
+" show path of current file
+nnoremap <Leader>f :execute 'NERDTreeFind' \| wincmd p<CR>
+" don't do this automatically as it pollutes the unfolding and isn't useful.
+" Automatic on first one and then manual is a good compromise
+" autocmd BufWinEnter * NERDTreeFind | wincmd p
+
+
 " --- Tagbar settings ---
 let g:tagbar_sort = 0
 let g:tagbar_compact = 1
 let g:tagbar_ctags_bin = "ctags-universal"
 " TODO: nnoremap?
-nmap <Leader>tgb :TagbarToggle<CR>
+" nmap <Leader>tgb :TagbarToggle<CR>
 
 " --- youCompleteMe Settings ---
 " C-y - close autocomplete menu (to insert tab)
@@ -304,6 +327,37 @@ nnoremap <Leader>< :Hi{<CR>    "         prev
 " --- delimitMate settings ---
 " TODO
 
+" TODO: arm64asm needs a :syntax sync fromstart in it
 " --- arm64asm-vim settings ---
 " I use arm. x86 is unlikely but I can still set manually
 autocmd FileType asm setlocal filetype=arm64asm
+
+" used for debugging highlighting
+" nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+"             \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+"             \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+
+" --- gutentags settings ---
+" Doesn't work for my custom ctags cmdline. It is only used to find the root of
+" the project :)
+let g:gutentags_enabled = 0
+let g:gutentags_ctags_executable = "ctags-universal"
+
+" I don't want tags polluting every git directory, so only enable this for a
+" select few of directories
+function Gutentags_Whitelist() abort
+    let gutentags_whitelist = [
+        \"tf-a",
+        \"platform-ci",
+        \"tftf",
+        \"linux",
+    \]
+    if match(expand('%:p'), join(gutentags_whitelist, "\\|"))
+        let g:gutentags_enabled = 1
+    endif
+
+endfunction
+
+autocmd BufAdd call Gutentags_Whitelist
+
