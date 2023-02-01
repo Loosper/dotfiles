@@ -86,6 +86,7 @@ alias vimzshrc="vim ~/.zshrc"
 alias vimvimrc="vim ~/.vimrc"
 alias diff='diff --color=auto'
 GREP_OPTS="--color=auto --exclude-dir={node_modules,.env,.git,__pycache__} --exclude tags -I -n"
+# cgrep has the excludes though?
 alias cgrep="/bin/grep" # clean grep
 alias grep="grep $GREP_OPTS"
 alias igrep="grep -i $GREP_OPTS"
@@ -93,6 +94,8 @@ alias rgrep="rgrep $GREP_OPTS"
 alias rigrep="rgrep -i $GREP_OPTS"
 alias egrep="egrep $GREP_OPTS"
 alias fgrep="fgrep $GREP_OPTS"
+# I use that too often
+alias gfind="find . | grep"
 alias dmesg="dmesg --color=always"
 alias ls='ls --color=auto'
 alias ip='ip --color=auto'
@@ -133,7 +136,8 @@ alias grbi="git rebase -i"
 alias grbc="git rebase --continue"
 alias grba="git rebase --abort"
 # stash
-alias gsta="git stash save"
+alias gsta="git stash push"
+alias gstam="git stash push -m"
 alias gstp="git stash pop"
 alias gsts="git stash show -p"
 alias gstl="git stash list"
@@ -142,6 +146,7 @@ alias gstd="git stash drop"
 alias glg="git log"
 alias glgs="git log --stat"
 alias glgp="git log --stat --patch"
+alias glgm="git log --format=medium"
 alias glgnm="git log --no-merges"
 
 function unmv {
