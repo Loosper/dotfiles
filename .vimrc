@@ -244,19 +244,89 @@ nnoremap <Leader>e :tabe
 " 	set undodir=~/.vim/undo
 " endif
 
+" --- tab-rooter settings ---
+
+" idea is that things like the tags and the Nerdtree shouldn't appear when I'm
+" browsing /etc in a small window. So only enable them in these directories
+let g:ide_whitelist = [
+    \"tf-a",
+    \"platform-ci",
+    \"tftf",
+    \"linux",
+\]
+let g:root_markers = [".git"]
+let g:ide_on = 0
+
+" --- tab-rooter (I wrote this based on vim-rooter) ---
+set noautochdir
+
+function! s:has(dir, identifier)
+    return !empty(globpath(escape(a:dir, '?*[]'), a:identifier, 1))
+endfunction
+
+function Get_root_dir(path)
+    let l:path = a:path
+    " root is the first parent directory that has a marker in it
+    while l:path != '/'
+        for marker in g:root_markers
+            if s:has(l:path, marker)
+                return path
+            endif
+        endfor
+        let l:path = fnamemodify(l:path, ':h')
+    endwhile
+
+    " no 'project' found. Go to parent of the file
+    return expand('%:h')
+endfunction
+
+function Is_ide_whitelisted(path)
+    if match(a:path, join(g:ide_whitelist, "\\|"))
+        return 1
+    endif
+    return 0
+endfunction
+
+let s:root_found = 0
+function Find_root()
+    if s:root_found
+        return
+    endif
+
+    let l:path = expand('%:p', 1)
+
+    if empty(l:path)
+        let s:root_found = 1
+        return
+    elseif l:path =~ 'NERD_tree_\d\+$'
+        return
+    endif
+
+    let l:path = Get_root_dir(l:path)
+    execute 'cd' fnameescape(path)
+
+    " don't trigger on git please and/or readonly files, and no diff
+    if Is_ide_whitelisted(path) && &ft !~ "gitcommit" && !&readonly && !&diff
+        let g:ide_on = 1
+    endif
+endfunction
+
+" heuristic, executes whenever we change the current buffer. Not too frequent
+autocmd BufEnter * call Find_root()
 
 " --- NERDtree setttings ---
 " Start NERDTree and put the cursor back in the other window. Then unfold
 " current file
-autocmd VimEnter * NERDTree | wincmd p | NERDTreeFind | wincmd p
+autocmd VimEnter * if g:ide_on == 1 | NERDTree | wincmd p | NERDTreeFind | wincmd p | endif
 
 " Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | wincmd p | endif
-" TODO:
-" if &ft =~ 'gitrebase'
+autocmd BufWinEnter * if g:ide_on == 1 && getcmdwintype() == '' | silent NERDTreeMirror | wincmd p | endif
+
+" and find current file on tab change
+autocmd BufEnter,BufWinEnter * if g:ide_on == 1 && expand("%:p") !~ 'NERD_tree_\d\+$' | NERDTreeFind | wincmd p | endif
 
 " hide the arrows. Not sure if I like but is certainly concise
 let g:NERDTreeDirArrowExpandable = ''
