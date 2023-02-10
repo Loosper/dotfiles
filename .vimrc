@@ -315,18 +315,14 @@ endfunction
 autocmd BufEnter * call Find_root()
 
 " --- NERDtree setttings ---
-" Start NERDTree and put the cursor back in the other window. Then unfold
-" current file
-autocmd VimEnter * if g:ide_on == 1 | NERDTree | wincmd p | NERDTreeFind | wincmd p | endif
+" Start NERDTree and put the cursor back in the other window.
+autocmd VimEnter * if g:ide_on == 1 | NERDTree | wincmd p | endif
 
 " Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " Open the existing NERDTree on each new tab.
 autocmd BufWinEnter * if g:ide_on == 1 && getcmdwintype() == '' | silent NERDTreeMirror | wincmd p | endif
-
-" and find current file on tab change
-autocmd BufEnter,BufWinEnter * if g:ide_on == 1 && expand("%:p") !~ 'NERD_tree_\d\+$' | NERDTreeFind | wincmd p | endif
 
 " hide the arrows. Not sure if I like but is certainly concise
 let g:NERDTreeDirArrowExpandable = ''
@@ -345,8 +341,10 @@ let g:NERDTreePatternMatchHighlightFullName = 1
 nnoremap <Leader>f :execute 'NERDTreeFind' \| wincmd p<CR>
 " don't do this automatically as it pollutes the unfolding and isn't useful.
 " Automatic on first one and then manual is a good compromise
+" Tried these but were very broken in many circumstances
 " autocmd BufWinEnter * NERDTreeFind | wincmd p
-
+" and find current file on tab change
+" autocmd BufEnter,BufWinEnter * if g:ide_on == 1 && expand("%:p") !~ 'NERD_tree_\d\+$' | NERDTreeFind | wincmd p | endif
 
 " --- Tagbar settings ---
 let g:tagbar_sort = 0
