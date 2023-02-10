@@ -206,26 +206,8 @@ endw
 " NOTE: increase this if you're not getting the alt keys
 set ttimeout ttimeoutlen=25
 
-" move a line up/down
-" TODO: remove indent after?
-" nnoremap <A-j> :m .+1<CR>==
-" nnoremap <A-k> :m .-2<CR>==
-" inoremap <A-j> <Esc>:m .+1<CR>==gi
-" inoremap <A-k> <Esc>:m .-2<CR>==gi
-" vnoremap <A-j> :m '>+1<CR>gv=gv
-" vnoremap <A-k> :m '<-2<CR>gv=gv
-" cmd: move, address: here +1
-" nnoremap <A-j> :m .+1<CR>
-" nnoremap <A-k> :m .-2<CR>
-" inoremap <A-j> <Esc>:m .+1<CR>i
-" inoremap <A-k> <Esc>:m .-2<CR>i
-" vnoremap <A-j> :m '>+1<CR>gv
-" vnoremap <A-k> :m '<-2<CR>gv
-
 " make switching tabs faster
 " C-PageUp doesn't quite work (might be an <A-j> type of situation)
-" and C-M is the same as Enter
-" TODO:
 nnoremap <A-m> gt
 nnoremap <A-n> gT
 " move tabs
