@@ -7,23 +7,23 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 " install them with :PluginInstall or +PluginInstall +qall on the cmd line
 call vundle#begin()
-    Plugin 'preservim/nerdtree'     " TODO: can also have icons
-    Plugin 'Xuyuanp/nerdtree-git-plugin'
-    Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
-    Plugin 'preservim/tagbar' " shows a side bar with all tags in the file
-    Plugin 'ctrlpvim/ctrlp.vim'
+    Plugin 'preservim/tagbar'           " tagbar: list of tags
+    Plugin 'preservim/nerdtree'         " tagbar: directory tree
+    Plugin 'Xuyuanp/nerdtree-git-plugin' " improv: show a little star if dirty
+    Plugin 'tiagofumo/vim-nerdtree-syntax-highlight' " improv: colour match filetypes
+    Plugin 'ctrlpvim/ctrlp.vim'         " cmd: fuzzy file search
     " this needs a manual installation:
     " cd ~/.vim/bundle/YouCompleteMe
     " python3 install.py --all
     Plugin 'ycm-core/YouCompleteMe'
     Plugin 'airblade/vim-gitgutter'
-    Plugin 'tpope/vim-commentary'       " shortcuts to toggle comments
-    Plugin 'ludovicchabant/vim-gutentags' " keeps ctags up to date (on save)
-    Plugin 'matze/vim-move'             " allows to move horizontally
+    Plugin 'tpope/vim-commentary'       " op: toggle comments
+    Plugin 'tpope/vim-surround'         " motion: surround
+    Plugin 'tpope/vim-repeat'           " improv: makes . better with plugins
+    Plugin 'matze/vim-move'             " action: move selection up/down/sideways
     Plugin 'azabiong/vim-highlighter'
     Plugin 'Raimondi/delimitMate'       " auto adds/removes closing brackets
-    Plugin 'compnerd/arm64asm-vim'
-    " TODO: make highligh + bracket/quote to surround the highlight by them
+    Plugin 'compnerd/arm64asm-vim'      " syntax: arm64 assembly
 call vundle#end()
 " TODO: https://github.com/vim-airline/vim-airline " a better (?) statusline
 " Plugin 'nathanaelkane/vim-indent-guides' " highlights indentation. I don't
