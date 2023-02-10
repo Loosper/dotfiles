@@ -72,21 +72,19 @@ set ignorecase smartcase    " case insensitive when all lowercase
 set wildignorecase          " case insensitive file completion
 " --- status line ---
 set laststatus=2            " show a status line
-set statusline=%F%m%r%h%w[%{&ff}]%y%=%L\ lines\ (%p%%)\ [%l,%v]
-"              | | | | |  |      | | |             |     |  |
-"              | | | | |  |      | | |             |     |  + current column
-"              | | | | |  |      | | |             |     +-- current line
-"              | | | | |  |      | | |             +-- current % into file
-"              | | | | |  |      | | +-- number of lines
-"              | | | | |  |      | +-- justify left
-"              | | | | |  |      +-- current syntax in square brackets
-"              | | | | |  +-- current fileformat
-"              | | | | +-- preview flag in square brackets
-"              | | | +-- help flag in square brackets
-"              | | +-- readonly flag in square brackets
-"              | +-- modified flag in square brackets
-"              +-- full path to file in the buffer
-
+set statusline=%f\ %m%r[%{&ff}]%y%=%L\ lines\ (%p%%)\ [%l,%v]
+"              |   | |   |      | | |             |     |  |
+"              |   | |   |      | | |             |     |  + current column
+"              |   | |   |      | | |             |     +-- current line
+"              |   | |   |      | | |             +-- current % into file
+"              |   | |   |      | | +-- number of lines
+"              |   | |   |      | +-- justify left
+"              |   | |   |      +-- current syntax in square brackets
+"              |   | |   +-- current fileformat
+"              |   | +-- readonly flag in square brackets
+"              |   +-- modified flag in square brackets
+"              +-- relative path to file in the buffer
+set showtabline=2           " keep the tab menu open at all times
 " --- editor settings ---
 set showmatch               " show matching brackets
 set foldmethod=syntax       " enable folding by syntax rules
