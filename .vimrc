@@ -97,8 +97,8 @@ set textwidth=80            " the max width for text (but not code)
 set formatoptions-=t        " don't wrap text (i.e code)
 " sadly will probably not wrap .txt files but ah well
 set colorcolumn=81          " vertical ruler for max line width (the char after line 80)
-set spelllang=en_gb         " dictionary ":set spell" will use
 highlight ColorColumn ctermbg=238 " make it grey
+set spelllang=en_gb         " dictionary ":set spell" will use
 
 " NOTE: use ctags-universal --c-kinds=+px (consider lzL too)
 " full command for tf-a: ctags-universal --c-kinds=+pxlzL --fields=+Krls --regex-asm="/^func ([a-z_0-9]*)$/\1/" -R .
@@ -112,19 +112,24 @@ highlight ColorColumn ctermbg=238 " make it grey
 " nnoremap <c-]> g<c-]>
 " vnoremap <c-]> g<c-]>
 
-" TODO: reads project vimrcs (if started in project root which the plugin
-" should do?)
-"
 " TODO: "set path=+=**" ?
 " gf can jump to filename and this would be the search path for it. Useful for
 " includes?
 " set exrc
-" TODO: have grep commands whenever tags dont work
 
-set smartindent  " fallback in case no filetype specific indentation
+" unfold everything on file read
+autocmd BufRead * normal zR
+
+" --- syntax ----
+" anything C related uses the kernel style
+function Clike_indent()
+    setlocal noexpandtab
+    setlocal shiftwidth=8
+    setlocal softtabstop=8
+endfunction
+
 filetype plugin indent on  " enable filetype specific indentation
-" with this cindent/smartindent should be unnecessary
-
+set smartindent  " fallback in case no filetype specific indentation
 set expandtab " most languages like it this way
 " but don't touch the tabstop, as this will mess with the tab character and we
 " want it consistent between languages
@@ -132,37 +137,26 @@ set expandtab " most languages like it this way
 " can be different but confuses me why one would do that
 set shiftwidth=4
 set softtabstop=4
-" anything C related uses the kernel style
-function Clike_indent()
-    setlocal noexpandtab
-    setlocal shiftwidth=8
-    setlocal softtabstop=8
-endfunction
 autocmd FileType c,cpp,asm,gitsendemail,make,gitcommit call Clike_indent()
 " these I'm not sure about but seem to use the same
 autocmd FileType sh call Clike_indent()
-
 " Linux says 72 to 75, TF-A wants no more than 72.
 autocmd FileType gitsendemail,gitcommit setlocal textwidth=72
 autocmd FileType gitsendemail,gitcommit setlocal spell
 
-" remove trailing whitespace
-let blacklist = ['markdown', 'diff', 'gitcommit']
-autocmd BufWritePre * if index(blacklist, &ft) < 0 | :%s/\s\+$//e
 " highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+\%#\@<!$/
 
-colorscheme badwolf
-
-" unfold everything on file read
-autocmd BufRead * normal zR
 " add "NOTE" as a keyword to (most) syntaxes
 autocmd Syntax * syntax keyword Todo NOTE containedin=.*Comment
 
+colorscheme badwolf
 " --- key bindings ---
 " set the <Leader> key
 let mapleader = " "
+" clear whitespace
+nnoremap <silent> <F5> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
 " make pane switching easier
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
