@@ -296,7 +296,7 @@ autocmd VimEnter * if g:ide_on == 1 | NERDTree | wincmd p | endif
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if g:ide_on == 1 && getcmdwintype() == '' | silent NERDTreeMirror | wincmd p | endif
+autocmd TabNew * if g:ide_on == 1 && getcmdwintype() == '' | silent NERDTreeMirror | wincmd p | endif
 
 " hide the arrows. Not sure if I like but is certainly concise
 let g:NERDTreeDirArrowExpandable = ''
