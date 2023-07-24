@@ -140,7 +140,7 @@ autocmd FileType c,cpp,asm,gitsendemail,make,gitcommit call Clike_indent()
 autocmd FileType sh call Clike_indent()
 " Linux says 72 to 75, TF-A wants no more than 72.
 autocmd FileType gitsendemail,gitcommit setlocal textwidth=72
-autocmd FileType gitsendemail,gitcommit setlocal spell
+autocmd FileType gitsendemail,gitcommit,rst,markdown setlocal spell
 
 " highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -166,6 +166,9 @@ nnoremap <Leader>O O<Esc>
 " copy to (vim) clipboard. TODO: should go in global clipboard
 noremap <Leader>Y "+y
 noremap <Leader>P "+p
+
+" disable Ex-mode (the "type :visual to exit" thing) mapping. I mistype :q often
+nnoremap Q <nop>
 
 " Cycle through relativenumber + number/ norelativenumber + number.
 function Cycle_numbering(direction) abort
@@ -202,7 +205,10 @@ while c <= 'z'
   let c = nr2char(1+char2nr(c))
 endw
 " NOTE: increase this if you're not getting the alt keys
+" ttimeout is the time to wait to interpret key codes as keys
 set ttimeout ttimeoutlen=25
+" timeout is the time to wait for new keys
+set notimeout
 
 " make switching tabs faster
 " C-PageUp doesn't quite work (might be an <A-j> type of situation)

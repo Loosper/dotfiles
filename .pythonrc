@@ -1,2 +1,7 @@
 import rlcompleter, readline
 readline.parse_and_bind("tab: complete")
+
+actual_hex = hex
+
+def hex(num):
+    return f'0x{num:_x}'

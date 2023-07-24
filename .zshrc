@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/loosper/.oh-my-zsh
+export ZSH=/home/$USER/.oh-my-zsh
 
 # TODO: https://mayccoll.github.io/Gogh/#0 - cool colours for terminal emulators
 # TODO: cute prompt https://github.com/denysdovhan/spaceship-prompt/
@@ -106,6 +106,7 @@ alias grep="grep $GREP_OPTS"
 alias igrep="grep -i $GREP_OPTS"
 alias rgrep="rgrep $GREP_OPTS"
 alias rigrep="rgrep -i $GREP_OPTS"
+alias rgrepi="rgrep -i $GREP_OPTS"
 alias egrep="egrep $GREP_OPTS"
 alias fgrep="fgrep $GREP_OPTS"
 # I use that too often
@@ -174,6 +175,10 @@ function swap() {
     mv $TMPFILE "$2"
 }
 
+function aa64objdump() {
+    aarch64-none-elf-objdump -D -S $1 | less
+}
+
 # --- settings ---
 export VISUAL=vim
 export EDITOR="$VISUAL"
@@ -197,6 +202,7 @@ export LD_LIBRARY_PATH=/usr/local/lib
 export PATH=$PATH:~/.local/bin
 export PYTHONSTARTUP=~/.pythonrc
 # export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
 
 if [ -z $TMUX ]; then
     tmux attach
