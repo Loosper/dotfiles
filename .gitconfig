@@ -45,3 +45,5 @@
 # 	whitespace = red reverse
 [pull]
 	ff = only
+[init]
+	DefaultBranch = master
