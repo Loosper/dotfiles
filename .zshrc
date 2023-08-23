@@ -204,10 +204,11 @@ export PYTHONSTARTUP=~/.pythonrc
 # export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 
-if [ -z $TMUX ]; then
-    tmux attach
-fi
 
 # this dir has all system-specific toolchains and such which need to be in $PATH
 # add them to the path in a system specific manner
 source ~/system/.zsh_system_source
+
+if [ -z $TMUX ] && [ ! -z $SSH_TTY]; then
+    tmux attach
+fi
