@@ -5,7 +5,7 @@ export ZSH=/home/$USER/.oh-my-zsh
 # TODO: cute prompt https://github.com/denysdovhan/spaceship-prompt/
 # NOTE: I have junkfood editted with:
 # PROMPT="$JUNKFOOD_CURRENT_USER_$JUNKFOOD_LOCA_
-ZSH_THEME="junkfood"
+ZSH_THEME="mine"
 CASE_SENSITIVE="false"
 HYPHEN_INSENSITIVE="true"
 DISABLE_AUTO_UPDATE="true"
