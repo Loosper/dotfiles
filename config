@@ -1,4 +1,13 @@
 AddKeysToAgent yes
+# ssh is starting to deprecate this but gerrit doesn't work otherwise
+PubkeyAcceptedKeyTypes +ssh-rsa
+# this is mostly for sshfs. When the server becomes unresponsive, kill the
+# connection (it will accept up to 3 serveralive ping fails which happen every 3
+# seconds) instead of hanging indefinitely. If `-o reconnect` was passed then it
+# will reattach seamlessly once available and send a proper error until then.
+# https://serverfault.com/questions/6709/sshfs-mount-that-survives-disconnect/639735
+ServerAliveInterval 5
+ServerAliveCountMax 3
 
 Host qemu
     HostName localhost
