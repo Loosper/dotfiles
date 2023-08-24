@@ -9,7 +9,8 @@ ln -s `pwd`/.tmux.conf ~/.tmux.conf
 ln -s `pwd`/.vimrc ~/.vimrc
 ln -s `pwd`/.zshrc ~/.zshrc
 ln -s `pwd`/.zsh_system_source ~/system/.zsh_system_source
-ln -s `pwd`/config ~/.ssh/config
+ln -s `pwd`/ssh/config ~/.ssh/config
+ln -s `pwd`/ssh/rc ~/.ssh/rc
 ln -s `pwd`/.gitignore ~/.gitignore
 ln -s `pwd`/badwolf.vim ~/.vim/colors/badwolf.vim
 ln -s `pwd`/htoprc ~/.config/htop/htoprc
